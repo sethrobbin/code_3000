@@ -18,9 +18,10 @@ def link_records(anon_df, aux_df):
       anon_id, matched_name
     containing ONLY uniquely matched records.
     """
-    identifiers = [c for c in aux_df.columns if c in aux_df.columns and c not in ['anon_id', 'name']]
+    identifiers = [c for c in anon_df.columns if c in aux_df.columns and c not in ['anon_id', 'name']]
     merged = anon_df.merge(aux_df, on=identifiers)
-    return merged[['anon_id', 'name']].drop_duplicates(subset=['anon_id'], keep=False)
+    matches = merged[['anon_id', 'name']].drop_duplicates(subset=['anon_id'], keep=False)
+    return matches.rename(columns={'name': 'matched_name'}).reset_index(drop=True)
 
 def deanonymization_rate(matches_df, anon_df):
     """
