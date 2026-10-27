@@ -20,15 +20,15 @@ def link_records(anon_df, aux_df):
     """
     identifiers = [c for c in anon_df.columns if c in aux_df.columns and c not in ['anon_id', 'name']]
     merged = anon_df.merge(aux_df, on=identifiers)
-    matches = merged[['anon_id', 'name']].drop_duplicates(subset=['anon_id'], keep=False)
-    return matches.rename(columns={'name': 'matched_name'}).reset_index(drop=True)
+    matches = merged.drop_duplicates(subset=['anon_id'], keep=False)
+    matches = matches.rename(columns={'name': 'matched_name'})
+    return matches[['anon_id', 'matched_name']]
 
 def deanonymization_rate(matches_df, anon_df):
     """
     Compute the fraction of anonymized records
     that were uniquely re-identified.
     """
-    if len(anon_df) > 0:
-        return len(matches_df) / len(anon_df)
-    else:
+    if len(anon_df) == 0:
         return 0
+    return len(matches_df) / len(anon_df)
