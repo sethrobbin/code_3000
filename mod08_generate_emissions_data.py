@@ -13,7 +13,7 @@ def generate_data():
         "renewable_region": 0.05
     }
 
-    power_per_core_kw = 0.05  # 50W per CPU core
+    power_per_core_kw = 0.05  # 50W per CPU core 
 
     max_cores_per_region = {
         "coal_heavy_region": 32,
